@@ -57,8 +57,8 @@
 % Technical University of Denmark, DTU Compute, Cognitive systems.
 %
 % Andreas Pedroni, andreas.pedroni@uzh.ch
-% University of Zürich, Psychologisches Institut, Methoden der
-% Plastizitätsforschung.
+% University of ZÃ¼rich, Psychologisches Institut, Methoden der
+% PlastizitÃ¤tsforschung.
 %
 % September 2017.
 %
@@ -82,7 +82,6 @@
 
 % Store original labels before smoothing (added by Ehsan Eqlimi, Sept 2025)
 function [L,RawLabels] = MicroSmooth_V2(X, A, smooth_type, opts)
-RawLabels=[];
 %% Initialisation
 [C,N,T] = size(X); 
 L = nan(T,N);
@@ -241,7 +240,7 @@ end
 
 % Sort the GMD to get the labels
 [~ ,labels] = sort(GMD,1);
-RawLabels=labels(1,:);  % Store original labels before smoothing (added by Ehsan Eqlimi)
+RawLabels=labels;  % Store original labels before smoothing (added by Ehsan Eqlimi)
 
 %% reject small maps
 for k = 1:minTime

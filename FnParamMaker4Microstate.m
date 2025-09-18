@@ -31,7 +31,7 @@ Param.MinPeakDist=10;            % Minimum distance (ms) between GFP peaks
 Param.GFPthresh=1;               % Threshold for GFP peak selection (in std units)
 
 %% ----------------- Clustering -----------------
-Param.KRange=4:10;               % Range of microstate numbers to test
+Param.KRange=4;%:10;               % Range of microstate numbers to test
 Param.Opts.reps=100;             % Number of clustering repetitions for stability
 Param.Opts.max_iterations=1000;  % Maximum iterations per clustering run
 Param.Opts.thresh=1e-6;          % Convergence threshold for clustering
