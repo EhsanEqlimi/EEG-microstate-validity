@@ -12,7 +12,7 @@ This repository was created to provide not only the **classical microstate pipel
 - **Spectral power analysis** (linking microstates to oscillatory dynamics).  
 - **Comparison of GFP-peak vs. non-peak samples** to test whether restricting to GFP peaks is valid.  
 
-In short: this toolbox aims to **bridge classical microstate analysis with modern information-theoretic and spectral approaches** to assess the validity of its core assumptions.
+
 
 ---
 

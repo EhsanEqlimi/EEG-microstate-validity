@@ -81,10 +81,10 @@ for t=1:length(ClustRes.A_all)
     CurrentPrototypes=ClustRes.A_all{t};
 
     % Backfit
-    [BackFittedLabels_IndividualMS,GMD]=MicroFit(EEGDataMat,CurrentPrototypes,Param.RespectPolarity);
+    [BackFittedLabels_IndividualMS,GMD]=MicroFit_GMD(EEGDataMat,CurrentPrototypes,Param.RespectPolarity);
 
     % Smooth
-    SmoothedBackFittedLabels_IndividualMS=MicroSmooth(EEGDataMat,CurrentPrototypes,Param.SmoothOpts.SmoothType,Param.SmoothOpts);
+    [SmoothedBackFittedLabels_IndividualMS,RawLabels]=MicroSmooth_V2(EEGDataMat,CurrentPrototypes,Param.SmoothOpts.SmoothType,Param.SmoothOpts);
 
     % Statistics
     MicrostateStatSmooth=MicroStats(EEGDataMat,CurrentPrototypes,SmoothedBackFittedLabels_IndividualMS,Param.RespectPolarity,Preprocessed.fsample);
