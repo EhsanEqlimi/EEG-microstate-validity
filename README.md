@@ -43,3 +43,4 @@ It must be called **before** the main analysis function (`FnMicrostateOneSubject
 
 ```matlab
 Param = FnParamMaker4Microstate();
+MSResults=FnMicrostateOneSubject(EEGLabData,Param);
