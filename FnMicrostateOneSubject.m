@@ -76,40 +76,39 @@ end
 
 % Apply modified k-means to identify microstate prototypes
 [Prototypes,Labels,ClustRes]=modkmeans(GFPData,Param.KRange,Param.Opts);
+%% -------------------- Loop over k results --------------------
+for t=1:length(ClustRes.A_all)
+    CurrentPrototypes=ClustRes.A_all{t};
 
-%% -------------------- Backfitting to own microstates --------------------
-% Backfit the EEG data using only the subject's own individualized microstates
-% No grand-average template or external templates are used
+    % Backfit
+    [BackFittedLabels_IndividualMS,GMD]=MicroFit(EEGDataMat,CurrentPrototypes,Param.RespectPolarity);
 
-% Backfit using the microstate prototypes obtained from this subject
-[BackFittedLabels_IndividualMS,GMD]=MicroFit(EEGDataMat,Prototypes,Param.RespectPolarity);
-%% -------------------- Smooth the backfitted labels -------------------
-% Apply smoothing using the prototypes
-SmoothedBackFittedLabels_IndividualMS=MicroSmooth(EEGDataMat,Prototypes,Param.SmoothOpts.SmoothType,Param.SmoothOpts);
+    % Smooth
+    SmoothedBackFittedLabels_IndividualMS=MicroSmooth(EEGDataMat,CurrentPrototypes,Param.SmoothOpts.SmoothType,Param.SmoothOpts);
 
-%% -------------------- Statistics --------------------
-% Compute microstate statistics
-MicrostateStatSmooth=MicroStats(EEGDataMat,Prototypes,SmoothedBackFittedLabels_IndividualMS,Param.RespectPolarity,Preprocessed.fsample);
-MicrostateStat=MicroStats(EEGDataMat,Prototypes,BackFittedLabels_IndividualMS,Param.RespectPolarity,Preprocessed.fsample);
-%% -------------------- Return results --------------------
-% Store GFP-related results
-MSResults.GFP.Avg=GFP.avg;                         % Global Field Power time series
-MSResults.GFP.PeakIdxAll=PeakIdxAll;               % All detected GFP peaks
-MSResults.GFP.NoiseIdx=PeakIdxAll(IsNoise);        % Peaks considered as noise
-MSResults.GFP.PeakIdx=PeakIdx;                     % Final peaks used for clustering
+    % Statistics
+    MicrostateStatSmooth=MicroStats(EEGDataMat,CurrentPrototypes,SmoothedBackFittedLabels_IndividualMS,Param.RespectPolarity,Preprocessed.fsample);
+    MicrostateStat=MicroStats(EEGDataMat,CurrentPrototypes,BackFittedLabels_IndividualMS,Param.RespectPolarity,Preprocessed.fsample);
 
-% Store subject-specific microstate results
-MSResults.Prototypes=Prototypes;                  % Microstate topographies (maps)
-MSResults.BackFittedLabels=BackFittedLabels_IndividualMS; % Labels assigned before smoothing
-MSResults.SmoothedLabels=SmoothedBackFittedLabels_IndividualMS; % Labels after smoothing
-MSResults.StatsSmoothed=MicrostateStatSmooth;    % Microstate statistics for smoothed labels
-MSResults.Stats=MicrostateStat;                  % Microstate statistics for raw (unsmoothed) labels
+    %% -------------------- Store results (with index t) --------------------
+    % GFP results (same for all k)
+    MSResults.GFP.Avg=GFP.avg;
+    MSResults.GFP.PeakIdxAll=PeakIdxAll;
+    MSResults.GFP.NoiseIdx=PeakIdxAll(IsNoise);
+    MSResults.GFP.PeakIdx=PeakIdx;
 
-% Store Global Map Dissimilarity (GMD) before smoothing
-MSResults.GMD=GMD;                                % Measure of map dissimilarity
+    % Store subject-specific microstate results per k
+    MSResults.Prototypes{t}=CurrentPrototypes;
+    MSResults.BackFittedLabels{t}=BackFittedLabels_IndividualMS;
+    MSResults.SmoothedLabels{t}=SmoothedBackFittedLabels_IndividualMS;
+    MSResults.StatsSmoothed{t}=MicrostateStatSmooth;
+    MSResults.Stats{t}=MicrostateStat;
 
-% Store k-means clustering results
-MSResults.Modkmeans.Labels=Labels;               % Cluster assignments for GFP peaks
-MSResults.Modkmeans.ClustRes=ClustRes;           % Detailed clustering results (e.g., centroids, GEV)
+    % Store GMD
+    MSResults.GMD{t}=GMD;
 
+    % Clustering results
+    MSResults.Modkmeans.Labels{t}=Labels{t};
+    MSResults.Modkmeans.ClustRes{t}=ClustRes;
+end
 end
