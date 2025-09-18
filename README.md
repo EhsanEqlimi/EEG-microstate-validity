@@ -16,16 +16,20 @@ This MATLAB pipeline performs EEG microstate analysis for single subjects using 
 
 ## Toolbox Requirements
 
-- **FieldTrip** – preprocessing and GFP computation.  
-  [FieldTrip](https://www.fieldtriptoolbox.org/)  
 
-- **EEGLAB**  
-  [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php)  
+This repository uses the **EEGLAB Microstate Toolbox** (Poulsen et al., 2018) for microstate clustering, backfitting, and visualization.  
 
-- **Microstate EEGLAB Toolbox (Poulsen et al., 2018)** – used programmatically for kmeans, backfitting, smoothing, and statistics (no GUI).  
-  [Microstate Toolbox](https://github.com/microstates/EEG-microstates)  
+**Dependencies:**  
+- [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) (for EEG data structures and Microstate Toolbox)  
+- [FieldTrip](https://www.fieldtriptoolbox.org/) (for preprocessing and GFP extraction)  
 
-- **Signal Processing Toolbox** – filtering, peak detection, and signal operations.
+**Notes:**  
+- No GUI is required; all functions are called programmatically.  
+- Microstate analysis is automated for a range of k (e.g., `4:10`).  
+
+**Reference:**  
+Poulsen, A. T., et al. (2018). *EEG microstate analysis with the EEGLAB Microstate Toolbox*. [Link](https://archive.compute.dtu.dk/files/public/users/atpo/Microstate)
+
 
 ## Functions
 
