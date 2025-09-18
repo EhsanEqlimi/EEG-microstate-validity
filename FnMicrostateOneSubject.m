@@ -89,8 +89,8 @@ SmoothedBackFittedLabels_IndividualMS=MicroSmooth(EEGDataMat,Prototypes,Param.Sm
 
 %% -------------------- Statistics --------------------
 % Compute microstate statistics
-MicrostateStatSmooth=MicroStats(EEGDataMat,Prototypes,SmoothedBackFittedLabels_IndividualMS,Param.RespectPolarity,FilteredPreprocessedEEGData.fsample);
-MicrostateStat=MicroStats(EEGDataMat,Prototypes,BackFittedLabels_IndividualMS,Param.RespectPolarity,FilteredPreprocessedEEGData.fsample);
+MicrostateStatSmooth=MicroStats(EEGDataMat,Prototypes,SmoothedBackFittedLabels_IndividualMS,Param.RespectPolarity,EEGDataMat.fsample);
+MicrostateStat=MicroStats(EEGDataMat,Prototypes,BackFittedLabels_IndividualMS,Param.RespectPolarity,EEGDataMat.fsample);
 %% -------------------- Return results --------------------
 % Store GFP-related results
 MSResults.GFP.Avg=GFP.avg;                         % Global Field Power time series
