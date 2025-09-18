@@ -1,21 +1,47 @@
-# EEG Microstate Analysis Pipeline
+# EEG Microstate Analysis & Validity Toolbox
 
-This MATLAB pipeline performs EEG microstate analysis for single subjects using **FieldTrip preprocessing** and **subject-specific k-means clustering**. Selected functions from the **Poulsen et al., 2018 Microstate EEGLAB Toolbox** are used programmatically (no GUI) for microstate backfitting, label smoothing, and statistics extraction.
+This MATLAB pipeline performs **EEG microstate analysis** for single subjects and extends the classical approach to **test the validity of common assumptions** in the field.  
+
+Traditional microstate analysis assumes:
+1. A **one-hot / winner-take-all representation** — only one microstate is active at a time.  
+2. A strong **sparsity assumption** — EEG scalp patterns can be compressed into a small set of prototypical maps.  
+
+This repository was created to provide not only the **classical microstate pipeline** (based on GFP peaks, modified k-means clustering, backfitting, smoothing, and statistics) but also to investigate these assumptions using:  
+
+- **Dimensionality-based measures** (e.g., Rényi information dimension, compressibility, ARMA modeling).  
+- **Spectral power analysis** (linking microstates to oscillatory dynamics).  
+- **Comparison of GFP-peak vs. non-peak samples** to test whether restricting to GFP peaks is valid.  
+
+In short: this toolbox aims to **bridge classical microstate analysis with modern information-theoretic and spectral approaches** to assess the validity of its core assumptions.
+
+---
 
 ## Features
 
 - **Preprocessing** using FieldTrip:
-  - Re-referencing, demeaning, detrending.
-  - Band-pass filtering.
-- **Global Field Power (GFP)** computation and peak detection.
-- **Subject-specific microstate extraction** using modified k-means clustering.
-- **Backfitting** of EEG data to individualized microstates using Poulsen et al., 2018 toolbox functions.
-- **Smoothing of microstate labels** to remove noisy segments.
-- **Microstate statistics** extracted from labels (duration, occurrence, transitions, GMD).
-- Supports **testing a range of microstate numbers** (e.g., `k = 4:10`) for optimal clustering.
+  - Re-referencing, demeaning, detrending  
+  - Band-pass filtering  
+
+- **Global Field Power (GFP)** computation and peak detection  
+
+- **Subject-specific microstate extraction** using modified k-means clustering  
+
+- **Backfitting** of EEG data to individualized microstates (Poulsen et al., 2018 toolbox functions)  
+
+- **Smoothing of microstate labels** to remove noisy segments  
+
+- **Microstate statistics** extracted from labels (duration, occurrence, transitions, GMD)  
+
+- Supports **testing a range of microstate numbers** (e.g., `k = 4:10`)  
+
+- **Validity extensions**:
+  - **Dimensionality metrics** (Rényi information dimension, ARMA-based compressibility)  
+  - **Spectral analysis** (oscillatory power linked to microstates)  
+  - **Evaluation of one-hot assumption** by comparing GFP-peak vs. non-peak samples  
+
+---
 
 ## Toolbox Requirements
-
 
 This repository uses the **EEGLAB Microstate Toolbox** (Poulsen et al., 2018) for microstate clustering, backfitting, smoothing.
 
@@ -25,17 +51,18 @@ This repository uses the **EEGLAB Microstate Toolbox** (Poulsen et al., 2018) fo
 
 **Notes:**  
 - No GUI is required; all functions are called programmatically.  
-- Microstate analysis is automated for a range of k (e.g., `4:10`).  
+- Microstate analysis is automated for a range of `k` (e.g., 4–10).  
 
 **Reference:**  
 Poulsen, A. T., et al. (2018). *EEG microstate analysis with the EEGLAB Microstate Toolbox*. [Link](https://archive.compute.dtu.dk/files/public/users/atpo/Microstate)
 
+---
 
 ## Functions
 
 ### `FnParamMaker4Microstate`
 
-This function **creates a comprehensive parameter structure** for EEG microstate analysis. It defines all settings required for the pipeline, including preprocessing, GFP computation, k-means clustering, backfitting, smoothing, and visualization.  
+This function **creates a comprehensive parameter structure** for EEG microstate analysis. It defines all settings required for the pipeline, including preprocessing, GFP computation, k-means clustering, backfitting, smoothing, spectral analysis, and dimensionality measures.  
 
 It must be called **before** the main analysis function (`FnMicrostateOneSubject`) to ensure that all necessary parameters are available.
 
@@ -43,34 +70,4 @@ It must be called **before** the main analysis function (`FnMicrostateOneSubject
 
 ```matlab
 Param = FnParamMaker4Microstate();
-MSResults=FnMicrostateOneSubject(EEGLabData,Param);
-
-## Output
-
-The function `FnMicrostateOneSubject` returns a structure `MSResults` containing all relevant results from the microstate analysis of a single subject:
-
-### Fields
-
-- **GFP** – Global Field Power results  
-  - `GFP.Avg` – GFP time series  
-  - `GFP.PeakIdxAll` – All detected GFP peaks  
-  - `GFP.NoiseIdx` – Peaks considered noise  
-  - `GFP.PeakIdx` – Peaks used for clustering  
-
-- **Prototypes** – Microstate topographies (maps) derived from clustering  
-
-- **BackFittedLabels** – Microstate labels assigned to EEG samples before smoothing  
-
-- **SmoothedLabels** – Microstate labels after temporal smoothing  
-
-- **Stats** – Microstate statistics for raw (unsmoothed) labels  
-
-- **StatsSmoothed** – Microstate statistics for smoothed labels  
-
-- **GMD** – Global Map Dissimilarity measure before smoothing  
-
-- **Modkmeans** – Detailed k-means clustering results  
-  - `Labels` – Cluster assignments for GFP peaks  
-  - `ClustRes` – Clustering results including centroids and Global Explained Variance (GEV)
-
-
+MSResults = FnMicrostateOneSubject(EEGLabData, Param);
