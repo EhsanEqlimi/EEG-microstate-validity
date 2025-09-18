@@ -1,4 +1,4 @@
-function MSResults=FnMicrostateOneSubject(EEGLabMat,Param)
+function [MSResults,Preprocessed]=FnMicrostateOneSubject(EEGLabMat,Param)
 % RunMicrostateOneSubject - Process EEG data for one subject
 %
 % INPUTS:
@@ -108,7 +108,7 @@ for t=1:length(ClustRes.A_all)
     MSResults.GMD{t}=GMD;
 
     % Clustering results
-    MSResults.Modkmeans.Labels{t}=Labels{t};
+    MSResults.Modkmeans.Labels{t}=Labels;
     MSResults.Modkmeans.ClustRes{t}=ClustRes;
 end
 end
