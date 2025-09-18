@@ -20,7 +20,7 @@ This MATLAB pipeline performs EEG microstate analysis for single subjects using 
 This repository uses the **EEGLAB Microstate Toolbox** (Poulsen et al., 2018) for microstate clustering, backfitting, smoothing.
 
 **Dependencies:**  
-- [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) (for EEG data structures and Microstate Toolbox)  
+- [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) (for EEG data structures)  
 - [FieldTrip](https://www.fieldtriptoolbox.org/) (for preprocessing and GFP extraction)  
 
 **Notes:**  
