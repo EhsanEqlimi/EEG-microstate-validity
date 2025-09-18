@@ -19,10 +19,10 @@ This MATLAB pipeline performs EEG microstate analysis for single subjects using 
 - **FieldTrip** – preprocessing and GFP computation.  
   [FieldTrip](https://www.fieldtriptoolbox.org/)  
 
-- **EEGLAB** – loading `.mat` EEG datasets.  
+- **EEGLAB**  
   [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php)  
 
-- **Microstate EEGLAB Toolbox (Poulsen et al., 2018)** – used programmatically for backfitting, smoothing, and statistics (no GUI).  
+- **Microstate EEGLAB Toolbox (Poulsen et al., 2018)** – used programmatically for kmeans, backfitting, smoothing, and statistics (no GUI).  
   [Microstate Toolbox](https://github.com/microstates/EEG-microstates)  
 
 - **Signal Processing Toolbox** – filtering, peak detection, and signal operations.
@@ -31,7 +31,11 @@ This MATLAB pipeline performs EEG microstate analysis for single subjects using 
 
 ### `FnParamMaker4Microstate`
 
-Creates a parameter struct for preprocessing, GFP computation, clustering, backfitting, and smoothing. Must be called **before** the main analysis function.
+This function **creates a comprehensive parameter structure** for EEG microstate analysis. It defines all settings required for the pipeline, including preprocessing, GFP computation, k-means clustering, backfitting, smoothing, and visualization.  
+
+It must be called **before** the main analysis function (`FnMicrostateOneSubject`) to ensure that all necessary parameters are available.
+
+**Usage:**
 
 ```matlab
 Param = FnParamMaker4Microstate();
