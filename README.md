@@ -44,3 +44,33 @@ It must be called **before** the main analysis function (`FnMicrostateOneSubject
 ```matlab
 Param = FnParamMaker4Microstate();
 MSResults=FnMicrostateOneSubject(EEGLabData,Param);
+
+## Output
+
+The function `FnMicrostateOneSubject` returns a structure `MSResults` containing all relevant results from the microstate analysis of a single subject:
+
+### Fields
+
+- **GFP** – Global Field Power results  
+  - `GFP.Avg` – GFP time series  
+  - `GFP.PeakIdxAll` – All detected GFP peaks  
+  - `GFP.NoiseIdx` – Peaks considered noise  
+  - `GFP.PeakIdx` – Peaks used for clustering  
+
+- **Prototypes** – Microstate topographies (maps) derived from clustering  
+
+- **BackFittedLabels** – Microstate labels assigned to EEG samples before smoothing  
+
+- **SmoothedLabels** – Microstate labels after temporal smoothing  
+
+- **Stats** – Microstate statistics for raw (unsmoothed) labels  
+
+- **StatsSmoothed** – Microstate statistics for smoothed labels  
+
+- **GMD** – Global Map Dissimilarity measure before smoothing  
+
+- **Modkmeans** – Detailed k-means clustering results  
+  - `Labels` – Cluster assignments for GFP peaks  
+  - `ClustRes` – Clustering results including centroids and Global Explained Variance (GEV)
+
+
